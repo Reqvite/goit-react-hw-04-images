@@ -1,41 +1,36 @@
+import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
 
 import { Header, FormContainer, SearchButton,ButtonLabel, Input } from "./Searchbar.styled"
 
 import {  toast } from 'react-toastify';
-import { Component } from "react"
 
 
-export class Searchbar extends Component{ 
-  state = {
-    query: ''
-  }
+export const Searchbar = ({ newQuery, onSubmit}) => { 
+  const [query, setQuery] = useState('');
 
-  handleNameChange = e => {
-    this.setState({ query: e.currentTarget.value.toLowerCase() })
-
+  const handleNameChange = e => {
+    setQuery(e.currentTarget.value.toLowerCase().trim())
   }
   
-  handleSubmit = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    const { query } = this.state;
-     if (query.trim() === '') {
+    if (query === '') {
        toast('The field must not be empty, please enter something.');
        return;
     }
-    if (query.trim() === this.props.newQuery) {
+    if (query === newQuery) {
       toast('Enter something new..');
        return;
     }
-    this.props.onSubmit(query);
-    this.setState({ query: '' });
+    onSubmit(query);
+    setQuery('');
     e.currentTarget.reset();
   }
 
-  render() {
       return (
     <Header >
-    <FormContainer onSubmit={this.handleSubmit}>     
+    <FormContainer onSubmit={handleSubmit}>     
      <SearchButton type="submit" >
       <AiOutlineSearch size={32}/>
     <ButtonLabel>Search</ButtonLabel>
@@ -46,12 +41,11 @@ export class Searchbar extends Component{
       autoFocus
       name="query"
       placeholder="Search images and photos"
-      onChange={this.handleNameChange}         
+      onChange={handleNameChange}         
         />
     </FormContainer>  
 </Header>
     )
-  }
 }  
     
     
