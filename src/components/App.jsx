@@ -29,9 +29,9 @@ export const App = () => {
       return
     };
     
-    const fetchImages = async () => {
+    const fetchImages =  () => {
       setStatus('pending');
-      await API.getData(query, page)
+      API.getData(query, page)
          .then(resp => {
       const { totalHits, hits } = resp.data;
            
